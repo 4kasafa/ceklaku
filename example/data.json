@@ -1,0 +1,94 @@
+{
+  "success": true,
+  "source": "table",
+  "user": "",
+  "periode": "",
+  "totalTransaksi": 0,
+  "rowCount": 6,
+  "headers": [
+    "No",
+    "Tanggal",
+    "Shift",
+    "Cabang",
+    "Kasir",
+    "Total Komputer",
+    "Pengeluaran",
+    "Uang Fisik",
+    "Status",
+    "Selisih"
+  ],
+  "data": [
+    {
+      "No": "1",
+      "Tanggal": "18 Februari 2026",
+      "Shift": "Pagi",
+      "Cabang": "SUMBER REJO",
+      "Kasir": "Soni Kurniyawan",
+      "Total Komputer": "Rp 7.683.500",
+      "Pengeluaran": "Rp 0",
+      "Uang Fisik": "Rp 7.684.200",
+      "Status": "LEBIH",
+      "Selisih": "Rp 700"
+    },
+    {
+      "No": "2",
+      "Tanggal": "17 Februari 2026",
+      "Shift": "Pagi",
+      "Cabang": "SUMBER REJO",
+      "Kasir": "Soni Kurniyawan",
+      "Total Komputer": "Rp 10.306.500",
+      "Pengeluaran": "Rp 0",
+      "Uang Fisik": "Rp 10.297.500",
+      "Status": "KURANG",
+      "Selisih": "Rp -9.000"
+    },
+    {
+      "No": "3",
+      "Tanggal": "16 Februari 2026",
+      "Shift": "Pagi",
+      "Cabang": "SUMBER REJO",
+      "Kasir": "Soni Kurniyawan",
+      "Total Komputer": "Rp 7.450.476",
+      "Pengeluaran": "Rp 0",
+      "Uang Fisik": "Rp 7.451.800",
+      "Status": "LEBIH",
+      "Selisih": "Rp 1.324"
+    },
+    {
+      "No": "4",
+      "Tanggal": "15 Februari 2026",
+      "Shift": "Pagi",
+      "Cabang": "SUMBER REJO",
+      "Kasir": "Soni Kurniyawan",
+      "Total Komputer": "Rp 8.821.710",
+      "Pengeluaran": "Rp 0",
+      "Uang Fisik": "Rp 8.825.000",
+      "Status": "LEBIH",
+      "Selisih": "Rp 3.290"
+    },
+    {
+      "No": "5",
+      "Tanggal": "14 Februari 2026",
+      "Shift": "Pagi",
+      "Cabang": "SUMBER REJO",
+      "Kasir": "Soni Kurniyawan",
+      "Total Komputer": "Rp 5.827.975",
+      "Pengeluaran": "Rp 0",
+      "Uang Fisik": "Rp 5.827.700",
+      "Status": "KURANG",
+      "Selisih": "Rp -275"
+    },
+    {
+      "No": "6",
+      "Tanggal": "13 Februari 2026",
+      "Shift": "Pagi",
+      "Cabang": "SUMBER REJO",
+      "Kasir": "Soni Kurniyawan",
+      "Total Komputer": "Rp 5.619.700",
+      "Pengeluaran": "Rp 0",
+      "Uang Fisik": "Rp 5.615.400",
+      "Status": "KURANG",
+      "Selisih": "Rp -4.300"
+    }
+  ]
+}
