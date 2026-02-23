@@ -18,7 +18,7 @@ function AboutContent({ onClose }) {
       </p>
       <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
         Dibangun dengan React, TailwindCSS, dan backend API kustom.
-        Versi 1.0.0
+        Versi 1.18.0
       </p>
     </div>
   );

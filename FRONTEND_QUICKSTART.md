@@ -14,7 +14,7 @@ https://ceklakuversihp.onrender.com
 2. Jika token tidak ada atau `expiresAt` lewat, tampilkan login form.
 3. Login ke `POST /auth/login`.
 4. Simpan `token` + `expiresAt`.
-5. Ambil data dashboard via `GET /dashboard?token=...`.
+5. Ambil data dashboard via `GET /dashboard` dengan header `Authorization: Bearer <token>`.
 6. Jika `401 TOKEN_INVALID`, hapus token lalu balik ke login.
 
 ## Endpoint yang Dipakai Frontend
@@ -37,7 +37,6 @@ Response sukses:
 ```json
 {
   "success": true,
-  "urlToken": "https://script.google.com/macros/s/.../exec?token=...",
   "token": "c25veX...",
   "expiresAt": "2026-02-16T17:20:14.331Z"
 }
@@ -45,7 +44,13 @@ Response sukses:
 
 ### 2) Ambil Dashboard
 
-`GET /dashboard?token=ISI_TOKEN`
+`GET /dashboard`
+
+Header:
+
+```txt
+Authorization: Bearer ISI_TOKEN
+```
 
 Response sukses:
 
@@ -84,7 +89,7 @@ Error penting:
 - `401 TOKEN_INVALID`: token invalid/expired.
 - `422 INVALID_CREDENTIALS_INPUT`: email/password kosong.
 - `401 LOGIN_FAILED`: login gagal.
-- `400 TOKEN_REQUIRED`: query token belum dikirim.
+- `400 TOKEN_REQUIRED`: header `Authorization: Bearer <token>` belum dikirim.
 
 ## Contoh Kode Frontend (Fetch)
 
@@ -114,7 +119,10 @@ function tokenValid() {
 
 async function fetchDashboard() {
   const token = localStorage.getItem('dashboard_token');
-  const res = await fetch(`${API_BASE}/dashboard?token=${encodeURIComponent(token || '')}`);
+  const res = await fetch(`${API_BASE}/dashboard`, {
+    method: 'GET',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
   const json = await res.json();
 
   if (res.status === 401 && json.code === 'TOKEN_INVALID') {

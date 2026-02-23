@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { login as apiLogin, tokenValid, fetchDashboard } from '../services/api';
+import { login as apiLogin, tokenValid, fetchDashboard, waitForServerReady } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
-  const [loadingMessage, setLoadingMessage] = useState('Initializing...');
+  const [loadingMessage, setLoadingMessage] = useState('');
 
   const simulateActivity = useCallback((message) => {
     setLoadingMessage(message);
@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
   const checkAuth = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-    simulateActivity('Mohon tunggu...'); // Set message for activity
+    setLoadingMessage('');
 
     if (tokenValid()) {
       try {
@@ -29,7 +29,6 @@ export function AuthProvider({ children }) {
         setDashboardData(data);
         setIsAuthenticated(true);
       } catch (err) {
-        console.error('Failed to fetch dashboard with existing token:', err);
         localStorage.removeItem('dashboard_token');
         localStorage.removeItem('dashboard_expires_at');
         setIsAuthenticated(false);
@@ -39,7 +38,7 @@ export function AuthProvider({ children }) {
     }
     setIsLoading(false);
     setLoadingMessage('Done'); // Clear message or set completion message
-  }, [simulateActivity]);
+  }, []);
 
   useEffect(() => {
     checkAuth();
@@ -48,16 +47,26 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (email, password) => {
     setIsLoading(true);
     setError(null);
-    simulateActivity('Mohon tunggu...'); // Set message for activity
+    simulateActivity('Menghubungkan ke server...');
 
     try {
+      await waitForServerReady({
+        timeoutMs: 90000,
+        intervalMs: 2500,
+      });
+      simulateActivity('Sedang login...');
       await apiLogin(email, password);
       setIsAuthenticated(true);
+      simulateActivity('Memuat data...');
       const data = await fetchDashboard();
       setDashboardData(data);
       return { success: true };
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error && err.message.toLowerCase().includes('server belum siap')) {
+        setError('Gagal menghubungkan ke server. Periksa koneksi internet Anda lalu coba lagi.');
+      } else {
+        setError(err.message);
+      }
       setIsAuthenticated(false);
       return { success: false, message: err.message };
     } finally {
@@ -67,7 +76,6 @@ export function AuthProvider({ children }) {
   }, [simulateActivity]);
 
   const logout = useCallback(() => {
-    console.log('Logout function called!'); // Added console.log
     localStorage.removeItem('dashboard_token');
     localStorage.removeItem('dashboard_expires_at');
     setIsAuthenticated(false);
