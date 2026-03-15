@@ -90,7 +90,7 @@ function App() {
 
     useEffect(() => {
         const checkIsDesktop = () => {
-            setIsDesktop(window.innerWidth >= 1024);
+            setIsDesktop(window.innerWidth >= 768);
         };
         checkIsDesktop();
         window.addEventListener('resize', checkIsDesktop);
