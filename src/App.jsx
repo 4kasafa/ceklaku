@@ -9,6 +9,7 @@ import NavigationSection from './components/NavigationSection';
 import { Eye, EyeOff } from 'lucide-react';
 import AboutContent from './components/AboutContent';
 import SettingsContent from './components/SettingsContent';
+import DesktopRedirect from './components/DesktopRedirect';
 
 function LoginForm() {
     const { login, isLoading, error } = useAuth();
@@ -83,6 +84,18 @@ function App() {
     });
     const isIOS = typeof window !== 'undefined' && /iphone|ipad|ipod/i.test(window.navigator.userAgent);
     const canShowInstallButton = !isAppInstalled;
+
+    const [isDesktop, setIsDesktop] = useState(false);
+    const [hasDismissedRedirect, setHasDismissedRedirect] = useState(false);
+
+    useEffect(() => {
+        const checkIsDesktop = () => {
+            setIsDesktop(window.innerWidth >= 1024);
+        };
+        checkIsDesktop();
+        window.addEventListener('resize', checkIsDesktop);
+        return () => window.removeEventListener('resize', checkIsDesktop);
+    }, []);
 
     useEffect(() => {
         const handleBeforeInstallPrompt = (e) => {
@@ -186,6 +199,8 @@ function App() {
                 )}
             </>
         );
+    } else if (!isAuthenticated && isDesktop && !hasDismissedRedirect) {
+        cardContent = <DesktopRedirect onContinue={() => setHasDismissedRedirect(true)} />;
     } else {
         cardContent = <LoginForm />;
     }
